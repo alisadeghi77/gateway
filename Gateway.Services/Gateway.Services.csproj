@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Gateway.Data\Gateway.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Contracts" />
+        <Folder Include="Implementation\" />
+        <Folder Include="Mapping\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Parbad.Storage.Abstractions" Version="1.1.0" />
+    </ItemGroup>
+
+</Project>
