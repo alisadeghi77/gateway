@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Gateway.Data.Repository;
 using Parbad.Storage.Abstractions;
 using Parbad.Storage.Abstractions.Models;
 
@@ -10,89 +11,92 @@ namespace Gateway.Services.Implementation;
 
 public class ParbadStorage : IStorage
 {
+    private readonly PaymentRepository _paymentRepository;
+    public ParbadStorage(PaymentRepository paymentRepository)
+    {
+        _paymentRepository = paymentRepository;
+        //var a = _paymentRepository.FindAll();
+    }
+
     // In-Memory data
-        private static readonly IList<Payment> StaticPayments = new List<Payment>();
-        private static readonly IList<Transaction> StaticTransactions = new List<Transaction>();
+    private static readonly IList<Payment> StaticPayments = new List<Payment>();
+    private static readonly IList<Transaction> StaticTransactions = new List<Transaction>();
 
-        public Task CreatePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
-        {
-            payment.Id = GenerateNewPaymentId();
+    public Task CreatePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
+    {
+        payment.Id = GenerateNewPaymentId();
 
-            StaticPayments.Add(payment);
+        StaticPayments.Add(payment);
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        public Task UpdatePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
-        {
-            var record = StaticPayments.SingleOrDefault(model => model.Id == payment.Id);
+    public Task UpdatePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
+    {
+        var record = StaticPayments.SingleOrDefault(model => model.Id == payment.Id);
 
-            if (record == null) throw new Exception();
+        if (record == null) throw new Exception();
 
-            record.Token = payment.Token;
-            record.TrackingNumber = payment.TrackingNumber;
-            record.TransactionCode = payment.TransactionCode;
+        record.Token = payment.Token;
+        record.TrackingNumber = payment.TrackingNumber;
+        record.TransactionCode = payment.TransactionCode;
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        public Task DeletePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
-        {
-            var record = StaticPayments.SingleOrDefault(model => model.Id == payment.Id);
+    public Task DeletePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
+    {
+        var record = StaticPayments.SingleOrDefault(model => model.Id == payment.Id);
 
-            if (record == null) throw new Exception();
+        if (record == null) throw new Exception();
 
-            StaticPayments.Remove(record);
+        StaticPayments.Remove(record);
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        public Task CreateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
-        {
-            transaction.Id = GenerateNewTransactionId();
+    public Task CreateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
+    {
+        transaction.Id = GenerateNewTransactionId();
 
-            StaticTransactions.Add(transaction);
+        StaticTransactions.Add(transaction);
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        public Task UpdateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
-        {
-            var record = StaticTransactions.SingleOrDefault(model => model.Id == transaction.Id);
+    public Task UpdateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
+    {
+        var record = StaticTransactions.SingleOrDefault(model => model.Id == transaction.Id);
 
-            if (record == null) throw new Exception();
+        if (record == null) throw new Exception();
 
-            record.IsSucceed = transaction.IsSucceed;
+        record.IsSucceed = transaction.IsSucceed;
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        public Task DeleteTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
-        {
-            var record = StaticTransactions.SingleOrDefault(model => model.Id == transaction.Id);
+    public Task DeleteTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
+    {
+        var record = StaticTransactions.SingleOrDefault(model => model.Id == transaction.Id);
 
-            if (record == null) throw new Exception();
+        if (record == null) throw new Exception();
 
-            StaticTransactions.Remove(record);
+        StaticTransactions.Remove(record);
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        public IQueryable<Payment> Payments => StaticPayments.AsQueryable();
+    public IQueryable<Payment> Payments => StaticPayments.AsQueryable();
 
-        public IQueryable<Transaction> Transactions => StaticTransactions.AsQueryable();
+    public IQueryable<Transaction> Transactions => StaticTransactions.AsQueryable();
 
-        private static long GenerateNewPaymentId()
-        {
-            return StaticPayments.Count == 0
-                ? 1
-                : StaticPayments.Max(model => model.Id) + 1;
-        }
+    private static long GenerateNewPaymentId()
+    {
+        return StaticPayments.Count == 0 ? 1 : StaticPayments.Max(model => model.Id) + 1;
+    }
 
-        private static long GenerateNewTransactionId()
-        {
-            return StaticTransactions.Count == 0
-                ? 1
-                : StaticTransactions.Max(model => model.Id) + 1;
-        }
+    private static long GenerateNewTransactionId()
+    {
+        return StaticTransactions.Count == 0 ? 1 : StaticTransactions.Max(model => model.Id) + 1;
+    }
 }
