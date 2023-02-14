@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Gateway.Services.Extensions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Gateway.ViewModels.Configuration;
@@ -12,6 +13,7 @@ namespace Gateway.WebFramework.Extensions
             services.AddControllers();
             services.Configure<ApplicationConfiguration>(a => configuration.Bind(a));
             services.RegisterSwagger();
+            services.RegisterServices(configuration);
             services.AddHealthChecks();
         }
 

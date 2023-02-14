@@ -5,7 +5,11 @@ using MicroOrm.Dapper.Repositories.SqlGenerator;
 
 namespace Gateway.Data.Repository;
 
-public class PaymentRepository : DapperRepository<Payment>
+public interface IPaymentRepository : IDapperRepository<Payment>
+{
+}
+
+public class PaymentRepository : DapperRepository<Payment>, IPaymentRepository
 {
     public PaymentRepository(IDbConnection connection, ISqlGenerator<Payment> sqlGenerator)
         : base(connection, sqlGenerator)

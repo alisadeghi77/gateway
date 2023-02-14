@@ -1,10 +1,14 @@
 using System;
+using Dapper.Contrib.Extensions;
+using Gateway.Data.Entities.Enums;
 
 namespace Gateway.Data.Entities;
 
+[Table("PaymentHistoryLogs")]
 public class PaymentHistory
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
+    public long PaymentId { get; set; }
     public int TenantId { get; set; }
     public string Reference { get; set; }
     public string TrackingCode { get; set; }

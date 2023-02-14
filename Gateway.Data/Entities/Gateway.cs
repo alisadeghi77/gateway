@@ -1,7 +1,10 @@
 using System;
+using Dapper.Contrib.Extensions;
+using Gateway.Data.Entities.Enums;
 
 namespace Gateway.Data.Entities;
 
+[Table("Gateways")]
 public class Gateway
 {
     public Guid Id { get; set; }

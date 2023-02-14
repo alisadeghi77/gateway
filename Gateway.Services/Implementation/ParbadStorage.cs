@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Gateway.Data.Repository;
 using Parbad.Storage.Abstractions;
 using Parbad.Storage.Abstractions.Models;
 
@@ -10,6 +11,13 @@ namespace Gateway.Services.Implementation;
 
 public class ParbadStorage : IStorage
 {
+    private readonly PaymentRepository _paymentRepository;
+
+    public ParbadStorage(PaymentRepository paymentRepository)
+    {
+        _paymentRepository = paymentRepository;
+    }
+    
     // In-Memory data
         private static readonly IList<Payment> StaticPayments = new List<Payment>();
         private static readonly IList<Transaction> StaticTransactions = new List<Transaction>();

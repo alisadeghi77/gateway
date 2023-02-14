@@ -1,3 +1,4 @@
+using Gateway.Data;
 using Gateway.Services.Implementation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,7 +51,7 @@ namespace Gateway.WebApplication
                         .WithOptions(options => options.GatewayPath = "/testgateway");
                 })
                 .ConfigureHttpContext(httpContextBuilder => httpContextBuilder.UseDefaultAspNetCore())
-                .ConfigureStorage(builder => builder.AddStorage(new ParbadStorage()));
+                .ConfigureStorage(builder => builder.AddStorage<ParbadStorage>(ServiceLifetime.Scoped));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

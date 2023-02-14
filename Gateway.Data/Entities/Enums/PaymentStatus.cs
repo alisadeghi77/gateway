@@ -1,4 +1,4 @@
-namespace Gateway.Data.Entities;
+namespace Gateway.Data.Entities.Enums;
 
 public enum PaymentStatus : byte
 {
