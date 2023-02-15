@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Parbad" Version="3.9.0" />
       <PackageReference Include="Parbad.Storage.Abstractions" Version="1.1.0" />
     </ItemGroup>
 

@@ -1,17 +1,18 @@
+using System;
 using System.Threading.Tasks;
+using Gateway.Services.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Parbad;
-using Parbad.AspNetCore;
 using Parbad.Gateway.Mellat;
 
 namespace Gateway.WebApplication.Controller;
 
-[Route("pay")]
-public class PayController : ControllerBase
+[Route("Payment")]
+public class PaymentController : ControllerBase
 {
     private readonly IOnlinePayment _onlinePayment;
 
-    public PayController(IOnlinePayment onlinePayment)
+    public PaymentController(IOnlinePayment onlinePayment)
     {
         _onlinePayment = onlinePayment;
     }
@@ -20,7 +21,7 @@ public class PayController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Pay()
     {
-        var callbackUrl = "https://www.site.com/foo/bar";
+        var callbackUrl = "https://localhost:5001/Verify";
 
         var result = await _onlinePayment.RequestAsync(invoice =>
         {
@@ -28,14 +29,11 @@ public class PayController : ControllerBase
                 .SetCallbackUrl(callbackUrl)
                 .SetAmount(1000)
                 .SetGateway("Mellat")
-                .SetTrackingNumber(10045)
-                ;
-            //
-            // invoice.UseAutoIncrementTrackingNumber();
+                .SetTrackingNumber(new Random().Next(50000));
         });
 
         if (result.IsSucceed)
-            return Ok(result.GatewayTransporter.Descriptor.Url);
+            return Ok(result.GatewayTransporter.Descriptor.GetUrl());
 
         return Ok(result);
     }

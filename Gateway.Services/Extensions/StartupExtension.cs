@@ -1,4 +1,4 @@
-﻿using Gateway.Data;
+using Gateway.Data.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

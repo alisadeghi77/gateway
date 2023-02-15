@@ -6,9 +6,9 @@ using MicroOrm.Dapper.Repositories.SqlGenerator;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gateway.Data;
+namespace Gateway.Data.Extensions;
 
-public static class ServiceExtension
+public static class StartupExtension
 {
     public static void RegisterData(this IServiceCollection services, IConfiguration configuration)
     {

@@ -24,34 +24,6 @@ namespace Gateway.WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.RegisterStartupDependencies(Configuration);
-
-            services.AddParbad()
-                .ConfigureGateways(gateways =>
-                {
-                    gateways.AddMellat()
-                        .WithAccounts(accounts =>
-                        {
-                            accounts.AddInMemory(account =>
-                            {
-                                account.TerminalId = 134753714;
-                                account.UserName = "user134753714";
-                                account.UserPassword = "77342348";
-                            });
-                        })
-                        .WithOptions(op =>
-                        {
-                            op.ApiUrl =
-                                "https://sandbox.banktest.ir/mellat/bpm.shaparak.ir/pgwchannel/services/pgw?wsdl";
-                            op.PaymentPageUrl =
-                                "https://sandbox.banktest.ir/mellat/bpm.shaparak.ir/pgwchannel/startpay.mellat";
-                        });
-
-                    gateways
-                        .AddParbadVirtual()
-                        .WithOptions(options => options.GatewayPath = "/testgateway");
-                })
-                .ConfigureHttpContext(httpContextBuilder => httpContextBuilder.UseDefaultAspNetCore())
-                .ConfigureStorage(builder => builder.AddStorage<ParbadStorage>(ServiceLifetime.Scoped));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
